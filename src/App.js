@@ -1,22 +1,48 @@
-import "./App.css";
-import Jobs from "./components/Jobs";
-import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
-import JobsContextProvider from "./contexts/JobsContext";
-import JobInfo from "./components/JobInfo";
+import React from "react";
+import { Grid } from "@material-ui/core";
 
-function App() {
+// import {
+//   PushToTalkButton,
+//   PushToTalkButtonContainer,
+//   ErrorPanel,
+// } from "@speechly/react-ui";
+
+import Details from "./components/Details/Details";
+import Main from "./components/Details/Main/Main";
+import useStyles from "./styles";
+
+const App = () => {
+  const classes = useStyles();
+
   return (
-    <Router>
-      <Switch>
-        <JobsContextProvider>
-          <div>
-            <Route path="/" exact component={Jobs} />
-            <Route path="/job/:id" exact component={JobInfo} />
-          </div>
-        </JobsContextProvider>
-      </Switch>
-    </Router>
+    <div>
+      <Grid
+        className={classes.grid}
+        container
+        spacing={0}
+        alignItems="center"
+        justify="center"
+        style={{ height: "80vh" }}
+      >
+        <Grid item xs={12} sm={4} className={classes.mobile}>
+          <Details title="Income" />
+        </Grid>
+        <Grid item xs={12} sm={3} className={classes.main}>
+          <Main />
+        </Grid>
+        <Grid item xs={12} sm={4} className={classes.desktop}>
+          <Details title="Income" />
+        </Grid>
+        <Grid item xs={12} sm={4} className={classes.last}>
+          <Details title="Expense" />
+        </Grid>
+      </Grid>
+      {/* <PushToTalkButtonContainer>
+        <PushToTalkButton />
+        <ErrorPanel />
+      </PushToTalkButtonContainer> */}
+    </div>
   );
-}
+};
 
 export default App;
