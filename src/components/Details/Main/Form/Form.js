@@ -19,6 +19,7 @@ import {
   incomeCategories,
   expenseCategories,
 } from "../../../../constants/categories";
+import CustomizedSnackbar from "../../../Snackbar/Snackbar";
 
 const initialState = {
   amount: "",
@@ -30,17 +31,27 @@ const initialState = {
 const Form = () => {
   const classes = useStyles();
   const [formData, setFormData] = useState(initialState);
+  const [open, setOpen] = useState(false);
+  const [error, setError] = useState(false);
   const { addTransaction } = useContext(ExpenseTrackerContext);
   // const { segment } = useSpeechContext();
 
-  const createTransaction = () => {
-    const transaction = {
-      ...formData,
-      amount: Number(formData.amount),
-      id: uuidv4(),
-    };
-    addTransaction(transaction);
-    setFormData(initialState);
+  const createTransaction = (e) => {
+    e.preventDefault();
+    // if (Number.isNaN(Number(formData.amount)) || !formData.date.includes("-"))\
+    if (formData.amount === "" && formData.category === "") {
+      setError(true);
+      return;
+    } else {
+      const transaction = {
+        ...formData,
+        amount: Number(formData.amount),
+        id: uuidv4(),
+      };
+      setOpen(true);
+      addTransaction(transaction);
+      setFormData(initialState);
+    }
   };
 
   const selectedCategories =
@@ -48,6 +59,7 @@ const Form = () => {
 
   return (
     <Grid container spacing={2}>
+      <CustomizedSnackbar open={open} setOpen={setOpen} />
       <Grid item xs={12}>
         <Typography
           align="center"
@@ -113,6 +125,13 @@ const Form = () => {
       >
         Create
       </Button>
+      {error ? (
+        <Typography variant="p" color="error">
+          Please fill out all the fields!!!
+        </Typography>
+      ) : (
+        ""
+      )}
     </Grid>
   );
 };
