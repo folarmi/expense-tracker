@@ -18,6 +18,8 @@ const CustomizedSnackbar = ({ open, setOpen }) => {
         open={open}
         autoHideDuration={3000}
         onClose={handleClose}
+        color="success"
+        style={{ backgroundColor: "#04e38d" }}
       >
         <MuiAlert
           onClose={handleClose}

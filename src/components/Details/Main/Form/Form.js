@@ -9,7 +9,6 @@ import {
   Select,
   MenuItem,
 } from "@material-ui/core";
-// import { useSpeechContext } from "@speechly/react-client";
 import useStyles from "./styles";
 
 import formatDate from "../../../../utils/formatDate";
@@ -34,12 +33,11 @@ const Form = () => {
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(false);
   const { addTransaction } = useContext(ExpenseTrackerContext);
-  // const { segment } = useSpeechContext();
 
   const createTransaction = (e) => {
     e.preventDefault();
     // if (Number.isNaN(Number(formData.amount)) || !formData.date.includes("-"))\
-    if (formData.amount === "" && formData.category === "") {
+    if (formData.amount === "" || formData.category === "") {
       setError(true);
       return;
     } else {
@@ -51,6 +49,7 @@ const Form = () => {
       setOpen(true);
       addTransaction(transaction);
       setFormData(initialState);
+      setError(false);
     }
   };
 
@@ -125,12 +124,10 @@ const Form = () => {
       >
         Create
       </Button>
-      {error ? (
+      {error && (
         <Typography variant="p" color="error">
           Please fill out all the fields!!!
         </Typography>
-      ) : (
-        ""
       )}
     </Grid>
   );
